@@ -23,7 +23,7 @@ const Navigation: FC<NavigationProps> = ({}) => {
         />
         <span className="text-xl font-bold"></span>
       </aside>
-      <nav className="hidden md:block absolute left-[50%] top-[50%] transform translate-x-[50%] translate-y-[-50%]">
+      <nav className="hidden md:block absolute left-[45%] top-[50%] transform translate-x-[50%] translate-y-[-50%]">
         <ul className="flex items-center justify-center gap-8">
           <Link href={'#'}>Pricing</Link>
           <Link href={'#'}>About</Link>
@@ -35,7 +35,7 @@ const Navigation: FC<NavigationProps> = ({}) => {
         <Link
           className="bg-primary text-white p-2 px-4 rounded-md hover:bg-primary/80"
           href={'/agency'}
-        ></Link>
+        >Login</Link>
         <UserButton />
         <ModeToggle/>
       </aside>

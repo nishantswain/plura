@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Navigation from '@/components/ui/site/navigation';
+import Navigation from '@/components/site/navigation';
 import { ClerkProvider } from '@clerk/nextjs';
 import { dark } from '@clerk/themes';
 interface layoutProps {
