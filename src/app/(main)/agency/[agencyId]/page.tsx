@@ -4,8 +4,8 @@ interface pageProps {
   params: { agencyId: string };
 }
 
-const page: FC<pageProps> = ({ params }) => {
-  return <div>page</div>;
+const page: FC<pageProps> = ({ params: { agencyId } }) => {
+  return <div>{agencyId}</div>;
 };
 
 export default page;
