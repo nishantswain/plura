@@ -41,7 +41,7 @@ import { Switch } from '../ui/switch';
 import {
   deleteAgency,
   initUser,
-  saveActivityLogNotification,
+  saveActivityLogsNotification,
   updateAgencyDetails,
   upsertAgency,
 } from '@/lib/queries';
@@ -226,7 +226,7 @@ const AgencyDetails: FC<AgencyDetailsProps> = ({ data }) => {
                   disabled={isLoading}
                   control={form.control}
                   name="name"
-                  render={({field}) => (
+                  render={({ field }) => (
                     <FormItem className="flex-1">
                       <FormLabel>Agency Name</FormLabel>
                       <FormControl>
@@ -240,7 +240,7 @@ const AgencyDetails: FC<AgencyDetailsProps> = ({ data }) => {
                   disabled={isLoading}
                   control={form.control}
                   name="companyEmail"
-                  render={({field}) => (
+                  render={({ field }) => (
                     <FormItem className="flex-1">
                       <FormLabel>Agency Email</FormLabel>
                       <FormControl>
@@ -256,7 +256,7 @@ const AgencyDetails: FC<AgencyDetailsProps> = ({ data }) => {
                   disabled={isLoading}
                   control={form.control}
                   name="companyPhone"
-                  render={({field}) => (
+                  render={({ field }) => (
                     <FormItem className="flex-1">
                       <FormLabel>Agency Phone Number</FormLabel>
                       <FormControl>
@@ -298,7 +298,7 @@ const AgencyDetails: FC<AgencyDetailsProps> = ({ data }) => {
                   disabled={isLoading}
                   control={form.control}
                   name="address"
-                  render={({field}) => (
+                  render={({ field }) => (
                     <FormItem className="flex-1">
                       <FormLabel>Address</FormLabel>
                       <FormControl>
@@ -314,7 +314,7 @@ const AgencyDetails: FC<AgencyDetailsProps> = ({ data }) => {
                   disabled={isLoading}
                   control={form.control}
                   name="city"
-                  render={({field}) => (
+                  render={({ field }) => (
                     <FormItem className="flex-1">
                       <FormLabel>City</FormLabel>
                       <FormControl>
@@ -328,7 +328,7 @@ const AgencyDetails: FC<AgencyDetailsProps> = ({ data }) => {
                   disabled={isLoading}
                   control={form.control}
                   name="state"
-                  render={({field}) => (
+                  render={({ field }) => (
                     <FormItem className="flex-1">
                       <FormLabel>State</FormLabel>
                       <FormControl>
@@ -342,7 +342,7 @@ const AgencyDetails: FC<AgencyDetailsProps> = ({ data }) => {
                   disabled={isLoading}
                   control={form.control}
                   name="zipCode"
-                  render={({field}) => (
+                  render={({ field }) => (
                     <FormItem className="flex-1">
                       <FormLabel>Zipcode</FormLabel>
                       <FormControl>
@@ -358,7 +358,7 @@ const AgencyDetails: FC<AgencyDetailsProps> = ({ data }) => {
                   disabled={isLoading}
                   control={form.control}
                   name="country"
-                  render={({field}) => (
+                  render={({ field }) => (
                     <FormItem className="flex-1">
                       <FormLabel>Country</FormLabel>
                       <FormControl>
@@ -381,7 +381,7 @@ const AgencyDetails: FC<AgencyDetailsProps> = ({ data }) => {
                     onValueChange={async (value: number) => {
                       if (!data?.id) return;
                       await updateAgencyDetails(data.id, { goal: value });
-                      await saveActivityLogNotification({
+                      await saveActivityLogsNotification({
                         agencyId: data.id,
                         description: `Updated the agency goal to | ${value} Sub Account`,
                         subaccountId: undefined,
