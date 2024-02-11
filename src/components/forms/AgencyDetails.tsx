@@ -217,6 +217,7 @@ const AgencyDetails: FC<AgencyDetailsProps> = ({ data }) => {
                         value={field.value}
                       />
                     </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               ></FormField>
@@ -261,6 +262,7 @@ const AgencyDetails: FC<AgencyDetailsProps> = ({ data }) => {
                       <FormControl>
                         <Input placeholder="Phone" {...field} />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 ></FormField>
@@ -286,6 +288,7 @@ const AgencyDetails: FC<AgencyDetailsProps> = ({ data }) => {
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 ></FormField>
@@ -301,6 +304,7 @@ const AgencyDetails: FC<AgencyDetailsProps> = ({ data }) => {
                       <FormControl>
                         <Input placeholder="123 st" {...field} />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 ></FormField>
@@ -316,6 +320,7 @@ const AgencyDetails: FC<AgencyDetailsProps> = ({ data }) => {
                       <FormControl>
                         <Input placeholder="City" {...field} />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 ></FormField>
@@ -329,6 +334,7 @@ const AgencyDetails: FC<AgencyDetailsProps> = ({ data }) => {
                       <FormControl>
                         <Input placeholder="state" {...field} />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 ></FormField>
@@ -342,6 +348,7 @@ const AgencyDetails: FC<AgencyDetailsProps> = ({ data }) => {
                       <FormControl>
                         <Input placeholder="Zipcode" {...field} />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 ></FormField>
@@ -357,6 +364,7 @@ const AgencyDetails: FC<AgencyDetailsProps> = ({ data }) => {
                       <FormControl>
                         <Input placeholder="country" {...field} />
                       </FormControl>
+                      <FormMessage />
                     </FormItem>
                   )}
                 ></FormField>
