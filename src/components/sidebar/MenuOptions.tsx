@@ -1,34 +1,36 @@
 'use client';
+
 import {
   Agency,
   AgencySidebarOption,
   SubAccount,
   SubAccountSidebarOption,
-  User,
 } from '@prisma/client';
-import { FC, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from '../ui/sheet';
 import { Button } from '../ui/button';
+import { ChevronsUpDown, Compass, Menu, PlusCircleIcon } from 'lucide-react';
 import clsx from 'clsx';
 import { AspectRatio } from '../ui/aspect-ratio';
 import Image from 'next/image';
-import { Popover, PopoverContent } from '../ui/popover';
-import { PopoverTrigger } from '@radix-ui/react-popover';
-import { ChevronsUpDown, Compass, PlusCircleIcon } from 'lucide-react';
+import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover';
 import {
   Command,
   CommandEmpty,
+  CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
 } from '../ui/command';
-import { CommandGroup } from 'cmdk';
 import Link from 'next/link';
+import { twMerge } from 'tailwind-merge';
 import { useModal } from '@/providers/modal-provider';
 import CustomModal from '../global/CustomModal';
 import SubAccountDetails from '../forms/SubaccountDetails';
+import { Separator } from '../ui/separator';
+import { icons } from '@/lib/constants';
 
-interface MenuOptionsProps {
+type Props = {
   defaultOpen?: boolean;
   subAccounts: SubAccount[];
   sidebarOpt: AgencySidebarOption[] | SubAccountSidebarOption[];
@@ -36,19 +38,20 @@ interface MenuOptionsProps {
   details: any;
   user: any;
   id: string;
-}
-
-const MenuOptions: FC<MenuOptionsProps> = ({
-  defaultOpen,
-  subAccounts,
-  sidebarOpt,
-  sidebarLogo,
+};
+// WIP: User `user` data to show create tickets and pipeline options when user.privateMetaData.ROLE is "AGENCY_GUEST"
+const MenuOptions = ({
   details,
-  user,
   id,
-}) => {
+  sidebarLogo,
+  sidebarOpt,
+  subAccounts,
+  user,
+  defaultOpen,
+}: Props) => {
   const { setOpen } = useModal();
   const [isMounted, setIsMounted] = useState(false);
+
   const openState = useMemo(
     () => (defaultOpen ? { open: true } : {}),
     [defaultOpen]
@@ -59,15 +62,18 @@ const MenuOptions: FC<MenuOptionsProps> = ({
   }, []);
 
   if (!isMounted) return;
-
+  console.log(defaultOpen);
   return (
     <Sheet modal={false} {...openState}>
       <SheetTrigger
         asChild
-        className="absolute lefy-4 top-4 z-[100] md:!hidden flex"
+        className="absolute left-4 top-4 z-[100] md:!hidden"
       >
-        <Button variant="outline" size={'icon'}></Button>
+        <Button variant="outline" size={'icon'}>
+          <Menu />
+        </Button>
       </SheetTrigger>
+
       <SheetContent
         showX={!defaultOpen}
         side={'left'}
@@ -91,8 +97,8 @@ const MenuOptions: FC<MenuOptionsProps> = ({
           <Popover>
             <PopoverTrigger asChild>
               <Button
-                className="w-full my-4  flex items-center justify-between py-8"
-                variant={'ghost'}
+                className="w-full my-4 flex items-center justify-between py-8"
+                variant="ghost"
               >
                 <div className="flex items-center text-left gap-2">
                   <Compass />
@@ -109,27 +115,28 @@ const MenuOptions: FC<MenuOptionsProps> = ({
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-80 h-80 mt-4 z-[200]">
-              <Command className="rounded-lg ">
-                <CommandInput placeholder="Search Accounts..."></CommandInput>
+              <Command className="rounded-lg">
+                <CommandInput placeholder="Search Accounts..." />
                 <CommandList className="pb-16">
-                  <CommandEmpty>No results found</CommandEmpty>
+                  <CommandEmpty> No results found</CommandEmpty>
                   {(user?.role === 'AGENCY_OWNER' ||
                     user?.role === 'AGENCY_ADMIN') &&
                     user?.Agency && (
-                      <CommandGroup>
-                        <CommandItem className="!bg-transparent my-2 text-primary  border-[1px] p-2 rounded-md hover:!bg-muted cursor-pointer transition-all">
+                      <CommandGroup heading="Agency">
+                        <CommandItem className="!bg-transparent my-2 text-primary broder-[1px] border-border p-2 rounded-md hover:!bg-muted cursor-pointer transition-all">
+                          {/* defaultOpen is true, means desktop view else mobile view */}
                           {defaultOpen ? (
                             <Link
                               href={`/agency/${user?.Agency?.id}`}
                               className="flex gap-4 w-full h-full"
                             >
-                              <div className="relative w-16 ">
+                              <div className="relative w-16">
                                 <Image
                                   src={user?.Agency?.agencyLogo}
-                                  alt="Agency logo"
+                                  alt="Agency Logo"
                                   fill
                                   className="rounded-md object-contain"
-                                ></Image>
+                                />
                               </div>
                               <div className="flex flex-col flex-1">
                                 {user?.Agency?.name}
@@ -144,13 +151,13 @@ const MenuOptions: FC<MenuOptionsProps> = ({
                                 href={`/agency/${user?.Agency?.id}`}
                                 className="flex gap-4 w-full h-full"
                               >
-                                <div className="relative w-16 ">
+                                <div className="relative w-16">
                                   <Image
                                     src={user?.Agency?.agencyLogo}
-                                    alt="Agency logo"
+                                    alt="Agency Logo"
                                     fill
                                     className="rounded-md object-contain"
-                                  ></Image>
+                                  />
                                 </div>
                                 <div className="flex flex-col flex-1">
                                   {user?.Agency?.name}
@@ -164,7 +171,10 @@ const MenuOptions: FC<MenuOptionsProps> = ({
                         </CommandItem>
                       </CommandGroup>
                     )}
-                  <CommandGroup heading="Accounts">
+                  <CommandGroup
+                    heading="Accounts
+                  "
+                  >
                     {!!subAccounts
                       ? subAccounts.map((subaccount) => (
                           <CommandItem key={subaccount.id}>
@@ -173,13 +183,13 @@ const MenuOptions: FC<MenuOptionsProps> = ({
                                 href={`/subaccount/${subaccount.id}`}
                                 className="flex gap-4 w-full h-full"
                               >
-                                <div className="relative w-16 ">
+                                <div className="relative w-16">
                                   <Image
                                     src={subaccount.subAccountLogo}
-                                    alt="Agency logo"
+                                    alt="subaccount Logo"
                                     fill
                                     className="rounded-md object-contain"
-                                  ></Image>
+                                  />
                                 </div>
                                 <div className="flex flex-col flex-1">
                                   {subaccount.name}
@@ -191,16 +201,16 @@ const MenuOptions: FC<MenuOptionsProps> = ({
                             ) : (
                               <SheetClose asChild>
                                 <Link
-                                  href={`/agency/${subaccount.id}`}
+                                  href={`/subaccount/${subaccount.id}`}
                                   className="flex gap-4 w-full h-full"
                                 >
-                                  <div className="relative w-16 ">
+                                  <div className="relative w-16">
                                     <Image
                                       src={subaccount.subAccountLogo}
-                                      alt="Subaccount logo"
+                                      alt="subaccount Logo"
                                       fill
                                       className="rounded-md object-contain"
-                                    ></Image>
+                                    />
                                   </div>
                                   <div className="flex flex-col flex-1">
                                     {subaccount.name}
@@ -218,33 +228,63 @@ const MenuOptions: FC<MenuOptionsProps> = ({
                 </CommandList>
                 {(user?.role === 'AGENCY_OWNER' ||
                   user?.role === 'AGENCY_ADMIN') && (
-                  <Button
-                    className="w-full flex gap-2"
-                    onClick={() =>
-                      setOpen(
-                        <CustomModal
-                          title="Create A Subaccount"
-                          subheading="You can switch between your agency account and subaccount from the sidebar"
-                        >
-                          <SubAccountDetails
-                            agencyDetails={user?.Agency as Agency}
-                            userId={user?.id as string}
-                            userName={user?.name}
-                          />
-                        </CustomModal>
-                      )
-                    }
-                  >dd{user?.role}
-                    <PlusCircleIcon size={15}>
-                        {user?.role}
+                  <SheetClose>
+                    <Button
+                      className="w-full flex gap-2"
+                      onClick={() => {
+                        setOpen(
+                          <CustomModal
+                            title="Create A Subaccount"
+                            subheading="You can switch between your agency account and the subaccount from the sidebar"
+                          >
+                            <SubAccountDetails
+                              agencyDetails={user?.Agency as Agency}
+                              userId={user?.id as string}
+                              userName={user?.name}
+                            />
+                          </CustomModal>
+                        );
+                      }}
+                    >
+                      <PlusCircleIcon size={15} />
                       Create Sub Account
-                    </PlusCircleIcon>
-                  </Button>
+                    </Button>
+                  </SheetClose>
                 )}
               </Command>
             </PopoverContent>
           </Popover>
         </div>
+        <p className="text-muted-foreground text-xs mb-2">MENU LINKS</p>
+        <Separator className="mb-4" />
+        <nav className="relative">
+          <Command className="rounded-lg overflow-visible bg-transparent">
+            <CommandInput placeholder="Search..." />
+            <CommandList className="pb-16 overflow-visible">
+              <CommandEmpty>No Results Found</CommandEmpty>
+              <CommandGroup className="overflow-visible">
+                {sidebarOpt.map((sidebarOptions) => {
+                  let val;
+                  const result = icons.find(
+                    (icon) => icon.value === sidebarOptions.icon
+                  );
+
+                  if (result) {
+                    val = <result.path />;
+                  }
+                  return (
+                    <CommandItem
+                      key={sidebarOptions.id}
+                      className="w-full md:w-[320px] "
+                    >
+                      <Link className='flex items-center gap-2 hover:bg-transparent rounded-md transition-all md:w-full w-[320px]' href={sidebarOptions.link}>{val}<span>{sidebarOptions.name}</span></Link>
+                    </CommandItem>
+                  );
+                })}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </nav>
       </SheetContent>
     </Sheet>
   );

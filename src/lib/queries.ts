@@ -29,6 +29,7 @@ export const getAuthUserDetails = async () => {
       Permissions: true,
     },
   });
+  
   return userData;
 };
 
@@ -369,3 +370,30 @@ export const upsertSubAccount = async (subAccount: SubAccount) => {
   });
   return response;
 };
+
+export const getUserPermissions = async (userId: string) => {
+  //getting all subaccounts that user has permission to access
+  const response = await db.user.findUnique({
+    where: { id: userId },
+    select: { Permissions: { include: { SubAccount: true } } },
+  })
+
+  return response
+}
+
+export const updateUser = async (user: Partial<User>) => {
+  //upadte in application db
+  const response = await db.user.update({
+    where: { email: user.email },
+    data: { ...user },
+  })
+
+  //update privateMetaData attribute in clerk db 
+  await clerkClient.users.updateUserMetadata(response.id, {
+    privateMetadata: {
+      role: user.role || 'SUBACCOUNT_USER',
+    },
+  })
+
+  return response
+}

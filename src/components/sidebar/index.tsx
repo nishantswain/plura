@@ -45,6 +45,7 @@ const Sidebar: FC<SidebarProps> = async ({ id, type }) => {
 
   return (
     <>
+      {/* based on default value we decide what to show in desktop view vs mobile view */}
       <MenuOptions
         defaultOpen={true}
         details={details}

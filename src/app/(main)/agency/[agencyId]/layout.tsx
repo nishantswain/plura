@@ -1,3 +1,5 @@
+import BlurPage from '@/components/global/BlurPage';
+import InfoBar from '@/components/global/InfoBar';
 import Sidebar from '@/components/sidebar';
 import Unauthorized from '@/components/unauthorized';
 import {
@@ -40,7 +42,12 @@ const layout: FC<layoutProps> = async ({ children, params }) => {
   return (
     <div className="h-screen overflow-hidden">
       <Sidebar id={params.agencyId} type="agency" />
-      <div className="md:pl-[300px]">{children}</div>
+      <div className="md:pl-[300px]">
+        <InfoBar  notifications={allNoti}></InfoBar>
+        <div className="relative">
+          <BlurPage>{children}</BlurPage>
+        </div>
+      </div>
     </div>
   );
 };
