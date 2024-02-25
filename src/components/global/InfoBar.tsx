@@ -1,3 +1,4 @@
+"use client"
 import { NotificationWithUser } from '@/lib/types';
 import { UserButton } from '@clerk/nextjs';
 import { FC, useState } from 'react';

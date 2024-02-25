@@ -1,4 +1,5 @@
 import AgencyDetails from '@/components/forms/AgencyDetails';
+import UserDetails from '@/components/forms/UserDetails';
 import { db } from '@/lib/db';
 import { currentUser } from '@clerk/nextjs';
 import { FC } from 'react';

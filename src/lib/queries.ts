@@ -29,7 +29,7 @@ export const getAuthUserDetails = async () => {
       Permissions: true,
     },
   });
-  
+
   return userData;
 };
 
@@ -376,24 +376,46 @@ export const getUserPermissions = async (userId: string) => {
   const response = await db.user.findUnique({
     where: { id: userId },
     select: { Permissions: { include: { SubAccount: true } } },
-  })
+  });
 
-  return response
-}
+  return response;
+};
 
 export const updateUser = async (user: Partial<User>) => {
   //upadte in application db
   const response = await db.user.update({
     where: { email: user.email },
     data: { ...user },
-  })
+  });
 
-  //update privateMetaData attribute in clerk db 
+  //update privateMetaData attribute in clerk db
   await clerkClient.users.updateUserMetadata(response.id, {
     privateMetadata: {
       role: user.role || 'SUBACCOUNT_USER',
     },
-  })
+  });
 
-  return response
-}
+  return response;
+};
+
+export const changeUserPermissions = async (
+  permissionId: string | undefined,
+  userEmail: string,
+  subAccountId: string,
+  permission: boolean
+) => {
+  try {
+    const response = await db.permissions.upsert({
+      where: { id: permissionId },
+      update: { access: permission },
+      create: {
+        access: permission,
+        email: userEmail,
+        subAccountId: subAccountId,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log('Could not change permission',error);
+  }
+};
